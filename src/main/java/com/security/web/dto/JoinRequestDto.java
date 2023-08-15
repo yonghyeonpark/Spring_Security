@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class JoinRequestDto {
 
-    private String userId;
+    private String username;
     private String password;
     private String role;
 
     @Builder
-    public JoinRequestDto(String userId, String password, String role) {
-        this.userId = userId;
+    public JoinRequestDto(String username, String password, String role) {
+        this.username = username;
         this.password = password;
         this.role = role;
     }

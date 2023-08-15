@@ -22,7 +22,7 @@ public class AuthService {
         String encPassword = encoder.encode(rawPassword);
 
         User user = User.builder()
-                .userId(dto.getUserId())
+                .username(dto.getUsername())
                 .password(encPassword)
                 .role("ROLE_USER")
                 .build();
