@@ -29,7 +29,6 @@ public class IndexController {
 
     // 스프링 시큐리티는 따로 세션을 가지고 있다.
     // 세션에 들어갈 수 있는 타입은 Authentication 객체 밖에 없다. (UserDetails, OAuth2User)
-
     @GetMapping("/test/login")
     public @ResponseBody String testLogin(
             Authentication authentication,

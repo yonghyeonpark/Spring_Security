@@ -10,17 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * 소셜 로그인 완료 후
- * 1. 코드를 받음(인증) - OAuth2-client 라이브러리가 받음
- * 2. 코드를 통해 엑세스토큰을 받음(권한)
- * 3. 엑세스토큰을 통해 사용자 프로필 정보를 가져옴
- * 4-1 정보를 토대로 회원가입을 자동으로 진행
- * 4-2 추가로 더 필요한 정보가 있다면 또 다른 회원가입창으로 연결
- *
- * oauth2 client 라이브러리를 사용하면 엑세스토큰과 사용자 프로필 정보를 한 번에 받음
- */
-
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
