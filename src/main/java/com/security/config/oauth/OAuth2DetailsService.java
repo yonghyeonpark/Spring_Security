@@ -1,6 +1,9 @@
 package com.security.config.oauth;
 
 import com.security.config.auth.PrincipalDetails;
+import com.security.config.oauth.provider.GoogleUserInfo;
+import com.security.config.oauth.provider.NaverUserInfo;
+import com.security.config.oauth.provider.OAuth2UserInfo;
 import com.security.domain.User;
 import com.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 /** 구글로그인 버튼 클릭 => 구글로그인 창 => 로그인 완료 => code를 리턴(OAuth2-Client 라이브러리) => 엑세스토큰을 요청하고 받음
  * 위의 과정을 거친 후의 정보가 UserRequest임
@@ -38,10 +42,17 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
         Map<String, Object> userInfo = oauth2User.getAttributes();
 
         String provider = userRequest.getClientRegistration().getRegistrationId(); // 어떤 OAuth인지 확인 가능
-        String provierId = oauth2User.getAttribute("sub");
+        OAuth2UserInfo oAuth2UserInfo = null;
+
+        if(provider.equals("google")) {
+            oAuth2UserInfo = new GoogleUserInfo(userInfo);
+        }else if(provider.equals("naver")) {
+            oAuth2UserInfo = new NaverUserInfo(userInfo);
+        }
+
+        String provierId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + provierId; // 충돌 방지
-        String password = username; // 의미 없음
-        String email = oauth2User.getAttribute("email");
+        String email = oAuth2UserInfo.getEmail();
 
         System.out.println("getRegistrationId : " + provider); // 어떤 OAuth인지 확인 가능
         System.out.println("getAccessToken : " + userRequest.getAccessToken().getTokenValue());
@@ -52,16 +63,14 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
         if(findUser == null) {
             User user = User.builder()
                     .username(username)
-                    .password(password)
                     .email(email)
-                    .role("dd")
+                    .role("ROLE_USER")
                     .build();
-
-            userRepository.save(user);
 
             return new PrincipalDetails(userRepository.save(user), userInfo);
         }
 
-        return new PrincipalDetails(findUser, userInfo);
+
+        return new PrincipalDetails(userRepository.save(findUser), userInfo);
     }
 }

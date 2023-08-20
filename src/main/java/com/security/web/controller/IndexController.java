@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class IndexController {
 
-    @GetMapping({"", "/"})
-    public @ResponseBody String basic() {
-        return "기본 페이지 입니다.";
-    }
-
     // 특정 메서드에 간단하게 접근 권한 지정
     @Secured("ROLE_USER")
     @GetMapping("/data")

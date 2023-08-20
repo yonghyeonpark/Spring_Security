@@ -23,17 +23,17 @@ public class User {
 
     private LocalDateTime createDate;
 
+    @PrePersist
+    public void createDate() {
+        this.createDate = LocalDateTime.now();
+    }
+
     @Builder
     public User(String username, String password, String email, String role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
-    }
-
-    @PrePersist
-    public void createDate() {
-        this.createDate = LocalDateTime.now();
     }
 
 }

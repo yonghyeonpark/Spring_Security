@@ -14,7 +14,7 @@ public class BasicController {
 
     private final AuthService authService;
 
-    @GetMapping("/user")
+    @GetMapping({"/user", "/"})
     public @ResponseBody String user() {
         return "user";
     }

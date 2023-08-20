@@ -40,7 +40,7 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/user/**").authenticated() // 인증 필요
+                .antMatchers("/user/**", "/").authenticated() // 인증 필요
                 .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(oAuth2DetailsService); // type : OAuth2UserService
+
         return http.build();
     }
 }
